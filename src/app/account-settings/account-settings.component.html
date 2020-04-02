@@ -1,0 +1,44 @@
+<section>
+  <form [formGroup]="userForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-form-field>
+      <input type="text" matInput placeholder="Your name" formControlName="name" name="name">
+      <mat-error *ngIf="!userForm.get('name').valid && userForm.get('name').touched">
+        Username missing !
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="email" matInput placeholder="Your email" formControlName="email" name="email">
+      <mat-error *ngIf="!userForm.get('email').valid && userForm.get('email').touched">
+        <mat-error *ngIf="userForm.get('email').errors['required']">
+          Email missing !
+        </mat-error>
+        <mat-error *ngIf="userForm.get('email').errors['email']">
+          Invalid email !
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field hintLabel="Should be at least 8 character long.">
+      <input type="password" matInput placeholder="Change password" formControlName="password" name="password">
+      <mat-hint align="end">{{ userForm.get('password').value?.length || 0 }}/8</mat-hint>
+      <mat-error *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
+        <mat-error *ngIf="userForm.get('password').errors['required']">
+          Password missing !
+        </mat-error>
+        <mat-error *ngIf="userForm.get('password').errors['minlength']">
+          Password should be at least 8 character long.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" formControlName="birthday" placeholder="Your birthday" [max]="maxDate"
+             name="birthday">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <!--    <mat-checkbox name="agree" formControlName="agree" color="warn">Agree to received a welcome mail.</mat-checkbox>-->
+    <button [disabled]="!userForm.valid" type="submit" mat-raised-button color="primary" (click)="onUpdate()">Update
+    </button>
+    <button mat-raised-button color="warn" (click)="onDelete()">Delete account</button>
+    <!-- actualLength // [disabled]="!userForm.valid" // <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+  </form>
+</section>

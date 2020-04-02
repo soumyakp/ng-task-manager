@@ -1,0 +1,17 @@
+<section class="signup-form">
+  <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px" [formGroup]="createTaskForm"
+  >
+    <mat-form-field>
+      <input type="text" matInput placeholder="Your task" formControlName="name" name="name">
+      <mat-error *ngIf="!createTaskForm.get('name').valid && createTaskForm.get('name').touched">
+        Task name missing !
+      </mat-error>
+    </mat-form-field>
+    <mat-radio-group fxLayoutGap="40px" color="primary" formControlName="completed">
+      <mat-radio-button value="completed">Completed</mat-radio-button>
+      <mat-radio-button value="not-completed">Not completed</mat-radio-button>
+    </mat-radio-group>
+    <button [disabled]="!createTaskForm.valid" type="submit" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
+    <!-- actualLength // [disabled]="!signupForm.valid" // <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+  </form>
+</section>

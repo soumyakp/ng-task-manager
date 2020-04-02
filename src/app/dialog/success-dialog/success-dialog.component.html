@@ -1,0 +1,28 @@
+<section *ngIf="data.type === 'api'">
+  <h1 mat-dialog-title>
+    <mat-icon>thumb_up</mat-icon>
+    Success
+  </h1>
+  <div mat-dialog-content>
+    <p>{{ data.message }}</p>
+
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" mat-dialog-close cdkFocusInitial>Okay</button>
+  </div>
+</section>
+
+<section *ngIf="data.type === 'confirm'">
+  <h2 mat-dialog-title>
+    <mat-icon>delete_sweep</mat-icon>
+    Please confirm!
+  </h2>
+  <div mat-dialog-content>
+    <p>{{ data.message }}</p>
+
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="accent" mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="warn" (click)="onConfirm()">Yes</button>
+  </div>
+</section>

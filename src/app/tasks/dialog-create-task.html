@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Edit your task</h1>
+<form [formGroup]="editTaskForm">
+    <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+
+        <mat-form-field style="width: 250px;">
+            <input type="text" matInput placeholder="Your task" formControlName="name" name="name">
+            <mat-error *ngIf="!editTaskForm.get('name').valid && editTaskForm.get('name').touched">
+                Task name missing !
+            </mat-error>
+        </mat-form-field>
+        <mat-radio-group fxLayoutGap="40px" color="primary" formControlName="completed">
+            <mat-radio-button value="completed">Completed</mat-radio-button>
+            <mat-radio-button value="not-completed">Not completed</mat-radio-button>
+        </mat-radio-group>
+        <button mat-button (click)="onYesClick()" mat-raised-button color="warn">Update</button>
+    </div>
+    <!-- <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Update</button>
+    </div> -->
+</form>

@@ -1,0 +1,40 @@
+<section>
+  <h3>Tasks management</h3>
+
+  <mat-tab-group color="warn" [selectedIndex]="index" (selectedIndexChange)="onChange($event)">
+    <mat-tab label="Your tasks">
+
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> Your task </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="completed">
+          <mat-header-cell *matHeaderCellDef> Completed </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.completed ? 'Yes' : 'No'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let element" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" (click)="onEdit(element)">Edit</button>
+            <button mat-raised-button color="warn" (click)="onDelete(element)">Delete</button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-tab>
+    <mat-tab label="Create new task">
+      <app-create-task (isTaskCreated)="getEmitter($event)"></app-create-task>
+    </mat-tab>
+    <mat-tab label="Account settings">
+      <app-account-settings></app-account-settings>
+    </mat-tab>
+  </mat-tab-group>
+</section>
+
+
