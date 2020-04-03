@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../auth/auth.service';
-// import { EventEmitter } from 'protractor';
-import { inherits } from 'util';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-task',
@@ -15,7 +14,10 @@ export class CreateTaskComponent implements OnInit {
     completed: new FormControl(null)
   });
   @Output() isTaskCreated = new EventEmitter<boolean>();
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
   }
@@ -29,6 +31,9 @@ export class CreateTaskComponent implements OnInit {
     this.authService.createTask(task)
       .subscribe(res => {
         this.isTaskCreated.emit(true);
+        this.snackBar.open('Your task created successfully!', '', {
+          duration: 2000,
+        });
       });
     this.createTaskForm.reset();
   }

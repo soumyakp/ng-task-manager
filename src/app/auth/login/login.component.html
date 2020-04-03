@@ -24,5 +24,6 @@
       </mat-error>
     </mat-form-field>
     <button [disabled]="!loginForm.valid" (click)="onSubmit()" mat-raised-button color="warn">Login</button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

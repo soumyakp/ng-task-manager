@@ -27,6 +27,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
     </mat-tab>
     <mat-tab label="Create new task">
       <app-create-task (isTaskCreated)="getEmitter($event)"></app-create-task>

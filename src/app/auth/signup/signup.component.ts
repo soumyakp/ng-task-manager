@@ -10,6 +10,7 @@ import {AuthService} from '../auth.service';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   maxDate: Date;
+  isLoading = false;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService
@@ -23,6 +24,9 @@ export class SignupComponent implements OnInit {
     //   password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
     //   birthday: new FormControl(null, Validators.required)
     // });
+    this.authService.getAuthListener().subscribe(change => {
+      this.isLoading = false;
+    });
     this.signupForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -35,6 +39,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     if (this.signupForm.valid) {
       this.authService.userSignup(this.signupForm.value);
     }

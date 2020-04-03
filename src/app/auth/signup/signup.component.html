@@ -39,6 +39,6 @@
     </mat-form-field>
     <mat-checkbox name="agree" formControlName="agree" color="warn">Agree to received a welcome mail.</mat-checkbox>
     <button [disabled]="!signupForm.valid" type="submit" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
-    <!-- actualLength // [disabled]="!signupForm.valid" // <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

@@ -13,6 +13,7 @@ export class TasksComponent implements OnInit {
   index = 0;
   dataSource: MatTableDataSource<any>;
   displayedColumns = ['description', 'completed', 'edit'];
+  isLoading = false;
 
   constructor(
     private authService: AuthService,
@@ -24,7 +25,9 @@ export class TasksComponent implements OnInit {
   }
 
   getList() {
+    this.isLoading = true;
     this.authService.getTask().subscribe(res => {
+      this.isLoading = false;
       this.dataSource = new MatTableDataSource<any>(res);
     });
   }
@@ -39,6 +42,7 @@ export class TasksComponent implements OnInit {
       // const res = result?.isEdit:false;
       if (result) {
         if (result.isEdit) {
+          this.isLoading = true;
           this.authService.editTask(result.task)
             .subscribe(res => {
               this.getList();

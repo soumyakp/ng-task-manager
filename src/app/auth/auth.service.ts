@@ -5,7 +5,8 @@ import {Subject} from 'rxjs';
 
 import {environment} from '../../environments/environment';
 import {SuccessDialogComponent} from '../dialog/success-dialog/success-dialog.component';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export interface SignupUser {
   username: string;
@@ -29,56 +30,67 @@ export class AuthService {
   };
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private isAuthenticated = new Subject<boolean>();
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
+  }
 
   userSignup(user: SignupUser) {
-    this.http.post<{user: object, token: string}>
-      (`${BACKEND_URL}users`, user, this.httpOptions)
+    this.http.post<{ user: object, token: string }>
+    (`${BACKEND_URL}users`, user, this.httpOptions)
       .subscribe(response => {
-        const dialogRef = this.dialog.open(SuccessDialogComponent, {
-          width: '250px',
-          data: {
-            type: 'api',
-            message: 'You signed up & logged in successfully!'
-          }
-        });
-        dialogRef.afterClosed().subscribe(result => {
+          // const dialogRef = this.dialog.open(SuccessDialogComponent, {
+          //   width: '250px',
+          //   data: {
+          //     type: 'api',
+          //     message: 'You signed up & logged in successfully!'
+          //   }
+          // });
+          // dialogRef.afterClosed().subscribe(result => {
+          const message = 'You signed up & logged in successfully!';
+          this.snackBar.open(message, '', {
+            duration: 2000,
+          });
           this.storeToken(response.token);
           this.isAuthenticated.next(true);
           this.router.navigate(['/tasks']);
+          // });
+        },
+        error => {
+          console.log(error);
+          this.isAuthenticated.next(false);
         });
-    },
-    error => {
-      console.log(error);
-      this.isAuthenticated.next(false);
-    });
   }
 
   userLogin(user: any) {
     this.http.post<any>
-      (`${BACKEND_URL}users/login`, user, this.httpOptions)
+    (`${BACKEND_URL}users/login`, user, this.httpOptions)
       .subscribe(res => {
-          const dialogRef = this.dialog.open(SuccessDialogComponent, {
-            width: '250px',
-            data: {
-              type: 'api',
-              message: 'You logged in successfully!'
-            }
+          // const dialogRef = this.dialog.open(SuccessDialogComponent, {
+          //   width: '250px',
+          //   data: {
+          //     type: 'api',
+          //     message: 'You logged in successfully!'
+          //   }
+          // });
+          // dialogRef.afterClosed().subscribe(result => {
+          const message = 'You logged in successfully!';
+          this.snackBar.open(message, '', {
+            duration: 2000,
           });
-          dialogRef.afterClosed().subscribe(result => {
-            this.storeToken(res.token);
-            this.isAuthenticated.next(true);
-            this.router.navigate(['/tasks']);
-          });
-      },
-      error => {
-        console.log(error);
-        this.isAuthenticated.next(false);
-      }
+          this.storeToken(res.token);
+          this.isAuthenticated.next(true);
+          this.router.navigate(['/tasks']);
+          // });
+        },
+        error => {
+          console.log(error);
+          this.isAuthenticated.next(false);
+        }
       );
   }
 
@@ -100,15 +112,15 @@ export class AuthService {
 
   userLogout() {
     this.http.post<any>
-      (`${BACKEND_URL}users/logout`, {}, this.httpOptions)
+    (`${BACKEND_URL}users/logout`, {}, this.httpOptions)
       .subscribe(res => {
-        this.removeToken();
-        this.isAuthenticated.next(false);
-        this.router.navigate(['/login']);
-      },
-      error => {
-        console.log(error);
-      }
+          this.removeToken();
+          this.isAuthenticated.next(false);
+          this.router.navigate(['/login']);
+        },
+        error => {
+          console.log(error);
+        }
       );
   }
 
@@ -122,27 +134,27 @@ export class AuthService {
 
   createTask(task: any) {
     return this.http.post<any>(`${BACKEND_URL}tasks`, task);
-      // .subscribe(res => {
-      //   console.log(res);
-      //   // this.getTask().subscribe(item => {
-      //   //   // may be a dialog box!
-      //   // });
-      // },
-      // error => {
-      //   console.log(error);
-      // });
+    // .subscribe(res => {
+    //   console.log(res);
+    //   // this.getTask().subscribe(item => {
+    //   //   // may be a dialog box!
+    //   // });
+    // },
+    // error => {
+    //   console.log(error);
+    // });
   }
 
   getTask() {
     return this.http.get<any>(`${BACKEND_URL}tasks`);
-      // .subscribe(res => {
-      //   console.log(res);
-      // });
+    // .subscribe(res => {
+    //   console.log(res);
+    // });
   }
 
   editTask(task: any) {
     const paramId = task._id;
-    const { _id, ...taskObj } = task;
+    const {_id, ...taskObj} = task;
     return this.http.patch<any>(`${BACKEND_URL}tasks/${paramId}`, taskObj);
   }
 

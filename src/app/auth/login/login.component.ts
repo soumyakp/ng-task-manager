@@ -9,9 +9,13 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  isLoading = false;
   constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.getAuthListener().subscribe(result => {
+      this.isLoading = false;
+    });
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
@@ -19,6 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     if (this.loginForm.valid) {
       this.authService.userLogin(this.loginForm.value);
     }

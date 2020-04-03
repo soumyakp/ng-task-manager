@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
 import {SuccessDialogComponent} from '../dialog/success-dialog/success-dialog.component';
-import {MatDialog} from "@angular/material/dialog";
-import {Router} from "@angular/router";
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-account-settings',
@@ -23,7 +24,8 @@ export class AccountSettingsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
     ) {
   }
 
@@ -58,13 +60,16 @@ export class AccountSettingsComponent implements OnInit {
     this.authService.editUser(user)
       .subscribe(res => {
         // successfully update
-        this.dialog.open(SuccessDialogComponent, {
-          width: '250px',
-          data: {
-            type: 'api',
-            message: 'Your credential updated successfully!'
-          }
+        this.snackBar.open('Your credential updated successfully!', '', {
+          duration: 2000
         });
+        // this.dialog.open(SuccessDialogComponent, {
+        //   width: '250px',
+        //   data: {
+        //     type: 'api',
+        //     message: 'Your credential updated successfully!'
+        //   }
+        // });
       }, error => {
         console.log(error);
       });
@@ -83,12 +88,8 @@ export class AccountSettingsComponent implements OnInit {
         if (res.isDelete) {
           this.authService.deleteUser()
             .subscribe(result => {
-              this.dialog.open(SuccessDialogComponent, {
-                width: '250px',
-                data: {
-                  type: 'api',
-                  message: 'Your account deleted successfully!'
-                }
+              this.snackBar.open('Your account deleted successfully!', '', {
+                duration: 2000
               });
               this.authService.removeToken();
               this.authService.setAuthListener();
