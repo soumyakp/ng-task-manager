@@ -3,8 +3,10 @@
 
   <mat-tab-group color="warn" [selectedIndex]="index" (selectedIndexChange)="onChange($event)">
     <mat-tab label="Your tasks">
-
-      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <div style="overflow: hidden; margin: auto;">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+      </div>
+      <mat-table *ngIf="!isLoading" [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Position Column -->
         <ng-container matColumnDef="description">
           <mat-header-cell *matHeaderCellDef> Your task </mat-header-cell>
@@ -27,7 +29,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
+
     </mat-tab>
     <mat-tab label="Create new task">
       <app-create-task (isTaskCreated)="getEmitter($event)"></app-create-task>

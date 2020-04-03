@@ -12,6 +12,6 @@
       <mat-radio-button value="not-completed">Not completed</mat-radio-button>
     </mat-radio-group>
     <button [disabled]="!createTaskForm.valid" type="submit" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
-    <!-- actualLength // [disabled]="!signupForm.valid" // <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

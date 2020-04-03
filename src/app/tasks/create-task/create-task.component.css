@@ -9,3 +9,7 @@ form {
 button {
   margin-top: 50px;
 }
+
+mat-spinner {
+  position: absolute;
+}

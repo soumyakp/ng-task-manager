@@ -13,6 +13,7 @@ export class CreateTaskComponent implements OnInit {
     name: new FormControl(null, Validators.required),
     completed: new FormControl(null)
   });
+  isLoading = false;
   @Output() isTaskCreated = new EventEmitter<boolean>();
   constructor(
     private authService: AuthService,
@@ -23,6 +24,7 @@ export class CreateTaskComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     const task = {
       description: this.createTaskForm.get('name').value,
       completed: this.createTaskForm.get('completed').value ?
@@ -30,6 +32,7 @@ export class CreateTaskComponent implements OnInit {
     };
     this.authService.createTask(task)
       .subscribe(res => {
+        this.isLoading = false;
         this.isTaskCreated.emit(true);
         this.snackBar.open('Your task created successfully!', '', {
           duration: 2000,

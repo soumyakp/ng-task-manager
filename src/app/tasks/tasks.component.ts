@@ -1,13 +1,14 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {MatTableDataSource} from '@angular/material/table';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css']
+  styleUrls: ['./tasks.component.css'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class TasksComponent implements OnInit {
   index = 0;
