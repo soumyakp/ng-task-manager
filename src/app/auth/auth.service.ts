@@ -28,6 +28,7 @@ export class AuthService {
       'Content-Type': 'application/json',
     }),
   };
+  isLogoutLoading = false;
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private isAuthenticated = new Subject<boolean>();
 
@@ -111,9 +112,11 @@ export class AuthService {
   }
 
   userLogout() {
+    this.isLogoutLoading = true;
     this.http.post<any>
     (`${BACKEND_URL}users/logout`, {}, this.httpOptions)
       .subscribe(res => {
+          this.isLogoutLoading = false;
           this.removeToken();
           this.isAuthenticated.next(false);
           this.router.navigate(['/login']);

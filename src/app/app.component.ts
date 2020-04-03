@@ -1,14 +1,21 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, DoCheck, HostListener, OnInit} from '@angular/core';
+import {AuthService} from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  constructor() {}
+export class AppComponent implements OnInit, DoCheck {
+  isLogoutLoading = false;
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  ngDoCheck() {
+    this.isLogoutLoading = this.authService.isLogoutLoading;
+  }
 
 }
 

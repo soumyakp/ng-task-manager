@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="isLogoutLoading" mode="indeterminate"></mat-progress-bar>
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
     <app-sidenav (sidenavClose)="sidenav.close()"></app-sidenav>
@@ -7,5 +8,6 @@
     <main>
       <router-outlet></router-outlet>
     </main>
+<!--    <footer>Created by Soumya</footer>-->
   </mat-sidenav-content>
 </mat-sidenav-container>
