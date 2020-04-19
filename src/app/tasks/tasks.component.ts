@@ -3,6 +3,7 @@ import {AuthService} from '../auth/auth.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-tasks',
@@ -18,7 +19,8 @@ export class TasksComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
     ) { }
 
   ngOnInit() {
@@ -46,6 +48,9 @@ export class TasksComponent implements OnInit {
           this.isLoading = true;
           this.authService.editTask(result.task)
             .subscribe(res => {
+              this.snackBar.open('Task edited successfully!', '', {
+                duration: 2000
+              });
               this.getList();
             });
         }
@@ -65,8 +70,12 @@ export class TasksComponent implements OnInit {
   }
 
   onDelete(task) {
+    this.isLoading = true;
     this.authService.deleteTask(task)
       .subscribe(res => {
+        this.snackBar.open('Task deleted successfully!', '', {
+          duration: 2000
+        });
         this.getList();
       });
   }

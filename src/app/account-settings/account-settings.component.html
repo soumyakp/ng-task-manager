@@ -38,7 +38,7 @@
     <!--    <mat-checkbox name="agree" formControlName="agree" color="warn">Agree to received a welcome mail.</mat-checkbox>-->
     <button [disabled]="!userForm.valid" type="submit" mat-raised-button color="primary" (click)="onUpdate()">Update
     </button>
-    <button mat-raised-button color="warn" (click)="onDelete()">Delete account</button>
+    <button mat-raised-button color="accent" (click)="onDelete()">Delete account</button>
     <!-- actualLength // [disabled]="!userForm.valid" // <mat-spinner *ngIf="isLoading"></mat-spinner> -->
   </form>
 </section>
