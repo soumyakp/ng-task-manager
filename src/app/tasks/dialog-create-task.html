@@ -1,21 +1,118 @@
-<h1 mat-dialog-title>Edit your task</h1>
-<form [formGroup]="editTaskForm">
-    <div mat-dialog-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
-
-        <mat-form-field style="width: 250px;">
-            <input type="text" matInput placeholder="Your task" formControlName="name" name="name">
-            <mat-error *ngIf="!editTaskForm.get('name').valid && editTaskForm.get('name').touched">
-                Task name missing !
-            </mat-error>
-        </mat-form-field>
-        <mat-radio-group fxLayoutGap="40px" color="primary" formControlName="completed">
-            <mat-radio-button value="completed">Completed</mat-radio-button>
-            <mat-radio-button value="not-completed">Not completed</mat-radio-button>
-        </mat-radio-group>
-        <button mat-button (click)="onYesClick()" mat-raised-button color="warn">Update</button>
+<div *ngIf="data._id">
+  <h1 mat-dialog-title>Edit your task</h1>
+  <form [formGroup]="taskForm">
+    <div
+      mat-dialog-content
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      fxLayoutGap="15px"
+    >
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Task title"
+          formControlName="title"
+          name="title"
+        />
+        <mat-error
+          *ngIf="!taskForm.get('title').valid && taskForm.get('title').touched"
+        >
+          Task title missing !
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="textarea"
+          matInput
+          placeholder="Task description"
+          formControlName="description"
+          name="description"
+        />
+        <mat-error
+          *ngIf="!taskForm.get('description').valid && taskForm.get('description').touched"
+        >
+          Task description missing !
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let st of status" [value]="st.id">
+            {{st.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <mat-radio-group fxLayoutGap="40px" color="primary" formControlName="completed">
+                <mat-radio-button value="completed">Completed</mat-radio-button>
+                <mat-radio-button value="not-completed">Not completed</mat-radio-button>
+            </mat-radio-group> -->
+      <button
+        mat-button
+        (click)="onYesClick()"
+        mat-raised-button
+        color="accent"
+      >
+        Update
+      </button>
     </div>
-    <!-- <div mat-dialog-actions>
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Update</button>
-    </div> -->
-</form>
+  </form>
+</div>
+
+<div *ngIf="!data._id">
+  <h1 mat-dialog-title>Create task</h1>
+  <form [formGroup]="taskForm">
+    <div
+      mat-dialog-content
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      fxLayoutGap="15px"
+    >
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Task title"
+          formControlName="title"
+          name="title"
+        />
+        <mat-error
+          *ngIf="!taskForm.get('title').valid && taskForm.get('title').touched"
+        >
+          Task title missing !
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="textarea"
+          matInput
+          placeholder="Task description"
+          formControlName="description"
+          name="description"
+        />
+        <mat-error
+          *ngIf="!taskForm.get('description').valid && taskForm.get('description').touched"
+        >
+          Task description missing !
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let st of status" [value]="st.id">
+            {{st.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        [disabled]="!taskForm.valid"
+        mat-button
+        (click)="onYesClick()"
+        mat-raised-button
+        color="accent"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+</div>

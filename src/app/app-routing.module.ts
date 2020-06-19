@@ -12,8 +12,8 @@ const route: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'tasks', component: TasksComponent, canActivate: [AuthGuard] }
-  // { path: '**', component: '' }
+  { path: 'tasks', component: TasksComponent, canActivate: [AuthGuard] },
+  { path: '**', component: WelcomeComponent }
 ];
 
 @NgModule({

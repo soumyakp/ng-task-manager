@@ -9,3 +9,7 @@ button {
 mat-spinner {
   position: absolute;
 }
+
+.signup-section {
+  margin-top: 50px;
+}

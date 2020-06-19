@@ -1,7 +1,43 @@
-section {
-    margin-top: 25px;
+.setting-section {
+    margin-top: 50px;
 }
 
 mat-form-field {
-    width: 275px;
+    width: 300px;
+}
+
+.shape {
+    width: 100px;
+    height: 100px;
+    /* float: left; */
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    /* transform: translateX(-3rem) skewX(12deg); */
+}
+
+.img {
+    height: 100%;
+}
+
+.btn {
+    position: relative;
+}
+
+.imageUpload {
+    position: absolute;
+    font-size: 0;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    opacity: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.imageUpload:focus {
+    outline: none;
 }

@@ -1,28 +1,39 @@
-<section>
-  <h3>Tasks management</h3>
-
-  <mat-tab-group color="warn" [selectedIndex]="index" (selectedIndexChange)="onChange($event)">
-    <mat-tab label="Your tasks">
+<section class="task-section">
+  <mat-tab-group color="primary" [selectedIndex]="index" (selectedIndexChange)="onChange($event)">
+    <mat-tab label="Tasks">
+      <div class="btn-task-add">
+        <button mat-raised-button color="accent" (click)="onCreate()">Create task</button>
+      </div>
       <div style="overflow: hidden; margin: auto;">
         <mat-spinner *ngIf="isLoading"></mat-spinner>
       </div>
       <mat-table *ngIf="!isLoading" [dataSource]="dataSource" class="mat-elevation-z8">
-        <!-- Position Column -->
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef> Your task </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="completed">
-          <mat-header-cell *matHeaderCellDef> Completed </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Completed</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.completed ? 'Yes' : 'No'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="edit">
-          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
           <mat-cell *matCellDef="let element" fxLayoutGap="10px">
-            <button mat-raised-button color="primary" (click)="onEdit(element)">Edit</button>
-            <button mat-raised-button color="warn" (click)="onDelete(element)">Delete</button>
+            <a (click)="onEdit(element)" class="btn-icon">
+              <i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i>
+            </a>
+            <a (click)="onDelete(element)" class="btn-icon">
+              <i class="fa fa-trash" aria-hidden="true" title="Delete"></i>
+            </a>
+            <!-- <i mat-raised-button color="accent" (click)="onEdit(element)">Edit</i>
+            <i mat-raised-button color="warn" (click)="onDelete(element)">Delete</i> -->
           </mat-cell>
         </ng-container>
 
@@ -31,9 +42,9 @@
       </mat-table>
 
     </mat-tab>
-    <mat-tab label="Create new task">
+    <!-- <mat-tab label="Create new task">
       <app-create-task (isTaskCreated)="getEmitter($event)"></app-create-task>
-    </mat-tab>
+    </mat-tab> -->
     <mat-tab label="Account settings">
       <app-account-settings></app-account-settings>
     </mat-tab>

@@ -1,12 +1,37 @@
-section {
+/* section {
   background-color: #e0e2dc52;
   margin: auto;
   width: 60%;
   padding: 10px;
-}
+} */
 
 mat-spinner {
   /*position: absolute;*/
   margin: auto;
 }
 
+table {
+  width: 100%;
+}
+
+.task-section {
+  margin-top: 10px;
+}
+
+.btn-task-add {
+  margin: 25px 0 50px 25px;
+}
+
+.btn-icon {
+  cursor: pointer;
+}
+
+.fa-pencil-square-o {
+  color: #4caf50;
+  font-size: 20px;
+}
+
+.fa-trash {
+  color: #FF0000;
+  font-size: 20px;
+}

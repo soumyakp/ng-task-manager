@@ -1,4 +1,4 @@
-<section class="signup-form">
+<section class="signup-section">
   <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="signupForm"
         >
     <mat-form-field>
@@ -37,8 +37,8 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <mat-checkbox name="agree" formControlName="agree" color="warn">Agree to received a welcome mail.</mat-checkbox>
-    <button [disabled]="!signupForm.valid" type="submit" mat-raised-button color="warn" (click)="onSubmit()">Submit</button>
+    <mat-checkbox name="agree" formControlName="agree" color="primary">Agree to received a welcome mail.</mat-checkbox>
+    <button [disabled]="!signupForm.valid" type="submit" mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

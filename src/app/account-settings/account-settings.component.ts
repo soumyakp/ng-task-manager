@@ -4,7 +4,7 @@ import {AuthService} from '../auth/auth.service';
 import {SuccessDialogComponent} from '../dialog/success-dialog/success-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {Router} from '@angular/router';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-account-settings',

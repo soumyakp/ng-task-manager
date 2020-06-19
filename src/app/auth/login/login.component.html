@@ -1,4 +1,4 @@
-<section>
+<section class="login-section">
   <form [formGroup]="loginForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
     <mat-form-field>
       <input type="email" matInput placeholder="Your email" name="email" formControlName="email">
@@ -23,7 +23,7 @@
         </mat-error>
       </mat-error>
     </mat-form-field>
-    <button [disabled]="!loginForm.valid" (click)="onSubmit()" mat-raised-button color="warn">Login</button>
+    <button [disabled]="!loginForm.valid" (click)="onSubmit()" mat-raised-button color="primary">Login</button>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
   </form>
 </section>

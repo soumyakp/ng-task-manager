@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Subject} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
-import {environment} from '../../environments/environment';
-import {SuccessDialogComponent} from '../dialog/success-dialog/success-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment';
+import { SuccessDialogComponent } from '../dialog/success-dialog/success-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface SignupUser {
   username: string;
@@ -19,7 +19,7 @@ export interface SignupUser {
 const BACKEND_URL = environment.API_URL;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   isAuthentication = false;
@@ -37,13 +37,17 @@ export class AuthService {
     private router: Router,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) {
-  }
+  ) {}
 
   userSignup(user: SignupUser) {
-    this.http.post<{ user: object, token: string }>
-    (`${BACKEND_URL}users`, user, this.httpOptions)
-      .subscribe(response => {
+    this.http
+      .post<{ user: object; token: string }>(
+        `${BACKEND_URL}users`,
+        user,
+        this.httpOptions
+      )
+      .subscribe(
+        (response) => {
           // const dialogRef = this.dialog.open(SuccessDialogComponent, {
           //   width: '250px',
           //   data: {
@@ -61,16 +65,18 @@ export class AuthService {
           this.router.navigate(['/tasks']);
           // });
         },
-        error => {
+        (error) => {
           console.log(error);
           this.isAuthenticated.next(false);
-        });
+        }
+      );
   }
 
   userLogin(user: any) {
-    this.http.post<any>
-    (`${BACKEND_URL}users/login`, user, this.httpOptions)
-      .subscribe(res => {
+    this.http
+      .post<any>(`${BACKEND_URL}users/login`, user, this.httpOptions)
+      .subscribe(
+        (res) => {
           // const dialogRef = this.dialog.open(SuccessDialogComponent, {
           //   width: '250px',
           //   data: {
@@ -88,7 +94,7 @@ export class AuthService {
           this.router.navigate(['/tasks']);
           // });
         },
-        error => {
+        (error) => {
           console.log(error);
           this.isAuthenticated.next(false);
         }
@@ -113,15 +119,20 @@ export class AuthService {
 
   userLogout() {
     this.isLogoutLoading = true;
-    this.http.post<any>
-    (`${BACKEND_URL}users/logout`, {}, this.httpOptions)
-      .subscribe(res => {
+    this.http
+      .post<any>(`${BACKEND_URL}users/logout`, {}, this.httpOptions)
+      .subscribe(
+        (res) => {
           this.isLogoutLoading = false;
           this.removeToken();
           this.isAuthenticated.next(false);
           this.router.navigate(['/login']);
+          const message = 'You logged out successfully!';
+          this.snackBar.open(message, '', {
+            duration: 2000,
+          });
         },
-        error => {
+        (error) => {
           console.log(error);
         }
       );
@@ -157,7 +168,7 @@ export class AuthService {
 
   editTask(task: any) {
     const paramId = task._id;
-    const {_id, ...taskObj} = task;
+    const { _id, ...taskObj } = task;
     return this.http.patch<any>(`${BACKEND_URL}tasks/${paramId}`, taskObj);
   }
 
@@ -188,5 +199,4 @@ export class AuthService {
   deleteUserAvatar() {
     return this.http.delete<any>(`${BACKEND_URL}users/me/avatar`);
   }
-
 }
