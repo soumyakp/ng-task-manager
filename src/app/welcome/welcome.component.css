@@ -1,40 +1,56 @@
 @keyframes moveInLeft {
   0% {
     opacity: 0;
-    transform: translateX(-100px); }
+    transform: translateX(-100px);
+  }
   /*60% {*/
   /*    transform: rotate(120deg);*/
   /*}*/
   80% {
-    transform: translateX(10px); }
+    transform: translateX(10px);
+  }
   100% {
     opacity: 1;
-    transform: translateX(0); } }
+    transform: translateX(0);
+  }
+}
 
 @keyframes moveInRight {
   0% {
     opacity: 0;
-    transform: translateX(100px); }
+    transform: translateX(100px);
+  }
   80% {
-    transform: translateX(-10px); }
+    transform: translateX(-10px);
+  }
   100% {
     opacity: 1;
-    transform: translateX(0); } }
+    transform: translateX(0);
+  }
+}
 
 @keyframes moveInBottom {
   0% {
     opacity: 0;
-    transform: translateY(30px); }
+    transform: translateY(30px);
+  }
   /*80% {*/
   /*    transform: translateY(-10px);*/
   /*}*/
   100% {
     opacity: 1;
-    transform: translate(0); } }
+    transform: translate(0);
+  }
+}
 
 .header {
   height: 85vh;
-  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../../assets/img/welcome.jpg);
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(126, 213, 111, 0.8),
+      rgba(40, 180, 133, 0.8)
+    ),
+    url(/assets/img/welcome.jpg);
   background-size: cover;
   background-position: top;
   position: relative;
@@ -80,7 +96,7 @@
 }
 
 @media (max-width: 600px) {
-  .heading-primary--main { 
+  .heading-primary--main {
     font-size: 25px;
     font-weight: 400;
     letter-spacing: 25px;
