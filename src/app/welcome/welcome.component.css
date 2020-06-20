@@ -50,7 +50,7 @@
       rgba(126, 213, 111, 0.8),
       rgba(40, 180, 133, 0.8)
     ),
-    url(/assets/img/welcome.jpg);
+    url(../../assets/img/welcome.jpg);
   background-size: cover;
   background-position: top;
   position: relative;
