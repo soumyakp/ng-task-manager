@@ -19,14 +19,14 @@ export interface SignupUser {
 const BACKEND_URL = environment.API_URL;
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   isAuthentication = false;
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
+      'Content-Type': 'application/json'
+    })
   };
   isLogoutLoading = false;
   private readonly JWT_TOKEN = 'JWT_TOKEN';
@@ -47,7 +47,7 @@ export class AuthService {
         this.httpOptions
       )
       .subscribe(
-        (response) => {
+        response => {
           // const dialogRef = this.dialog.open(SuccessDialogComponent, {
           //   width: '250px',
           //   data: {
@@ -58,14 +58,14 @@ export class AuthService {
           // dialogRef.afterClosed().subscribe(result => {
           const message = 'You signed up & logged in successfully!';
           this.snackBar.open(message, '', {
-            duration: 2000,
+            duration: 2000
           });
           this.storeToken(response.token);
           this.isAuthenticated.next(true);
           this.router.navigate(['/tasks']);
           // });
         },
-        (error) => {
+        error => {
           console.log(error);
           this.isAuthenticated.next(false);
         }
@@ -76,7 +76,7 @@ export class AuthService {
     this.http
       .post<any>(`${BACKEND_URL}users/login`, user, this.httpOptions)
       .subscribe(
-        (res) => {
+        res => {
           // const dialogRef = this.dialog.open(SuccessDialogComponent, {
           //   width: '250px',
           //   data: {
@@ -87,14 +87,14 @@ export class AuthService {
           // dialogRef.afterClosed().subscribe(result => {
           const message = 'You logged in successfully!';
           this.snackBar.open(message, '', {
-            duration: 2000,
+            duration: 2000
           });
           this.storeToken(res.token);
           this.isAuthenticated.next(true);
           this.router.navigate(['/tasks']);
           // });
         },
-        (error) => {
+        error => {
           console.log(error);
           this.isAuthenticated.next(false);
         }
@@ -122,17 +122,17 @@ export class AuthService {
     this.http
       .post<any>(`${BACKEND_URL}users/logout`, {}, this.httpOptions)
       .subscribe(
-        (res) => {
+        res => {
           this.isLogoutLoading = false;
           this.removeToken();
           this.isAuthenticated.next(false);
           this.router.navigate(['/login']);
           const message = 'You logged out successfully!';
           this.snackBar.open(message, '', {
-            duration: 2000,
+            duration: 2000
           });
         },
-        (error) => {
+        error => {
           console.log(error);
         }
       );

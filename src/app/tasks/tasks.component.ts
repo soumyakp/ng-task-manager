@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
-  MatDialogRef,
+  MatDialogRef
 } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,13 +12,31 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.css'],
+  styleUrls: ['./tasks.component.css']
   // encapsulation: ViewEncapsulation.None
 })
 export class TasksComponent implements OnInit {
+  status = [
+    {
+      id: 1,
+      value: 'Not started'
+    },
+    {
+      id: 2,
+      value: 'Reviewed'
+    },
+    {
+      id: 3,
+      value: 'In progress'
+    },
+    {
+      id: 4,
+      value: 'Completed'
+    }
+  ];
   index = 0;
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['title', 'description', 'completed', 'edit'];
+  displayedColumns = ['title', 'description', 'status', 'edit'];
   isLoading = false;
 
   constructor(
@@ -34,7 +52,15 @@ export class TasksComponent implements OnInit {
     this.isLoading = true;
     this.authService.getTask().subscribe(res => {
       this.isLoading = false;
-      this.dataSource = new MatTableDataSource<any>(res);
+      const taskList = res.map(item => {
+        return {
+          _id: item._id,
+          title: item.title,
+          description: item.description
+          // status: this.status.find(el => el.id === item.status).value
+        };
+      });
+      this.dataSource = new MatTableDataSource<any>(taskList);
     });
   }
 
@@ -43,46 +69,56 @@ export class TasksComponent implements OnInit {
       width: '400px',
       data: {
         description: '',
-        completed: '',
-      },
+        completed: ''
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('result', result);
-      if (result.isEdit) {
+      if (result && result?.isEdit) {
+        this.isLoading = true;
+        const reqObj = {
+          title: result.task.title,
+          description: result.task.description,
+          status: result.task.status
+        };
+        this.authService.createTask(reqObj).subscribe(
+          res => {
+            this.getList();
+            this.isLoading = false;
+            this.snackBar.open('Your task created successfully!', '', {
+              duration: 2000
+            });
+          },
+          error => {
+            this.isLoading = false;
+          }
+        );
       }
-      this.isLoading = true;
-      this.authService.createTask(result.task).subscribe(res => {
-        this.getList();
-        this.isLoading = false;
-        this.snackBar.open('Your task created successfully!', '', {
-          duration: 2000,
-        });
-      });
     });
   }
   onEdit(task) {
     const temp = {
-      title: task.description,
-      status: 1,
-      ...task,
+      _id: task._id,
+      title: task.title,
+      description: task.description,
+      status: this.status.find(item => item.value === task.status)?.id
     };
+    console.log('task', temp);
     const dialogRef = this.dialog.open(CreateTaskDialogComponent, {
       width: '400px',
-      data: temp,
+      data: temp
     });
 
     dialogRef.afterClosed().subscribe(result => {
       // const res = result?.isEdit:false;
-      if (result) {
-        if (result.isEdit) {
-          this.isLoading = true;
-          this.authService.editTask(result.task).subscribe(res => {
-            this.snackBar.open('Task edited successfully!', '', {
-              duration: 2000,
-            });
-            this.getList();
+      if (result && result?.isEdit) {
+        // console.log(result);
+        this.isLoading = true;
+        this.authService.editTask(result.task).subscribe(res => {
+          this.snackBar.open('Task edited successfully!', '', {
+            duration: 2000
           });
-        }
+          this.getList();
+        });
       }
     });
   }
@@ -100,14 +136,9 @@ export class TasksComponent implements OnInit {
 
   onDelete(task) {
     this.isLoading = true;
-    const temp = {
-      title: task.description,
-      status: 1,
-      ...task,
-    };
     this.authService.deleteTask(task).subscribe(res => {
       this.snackBar.open('Task deleted successfully!', '', {
-        duration: 2000,
+        duration: 2000
       });
       this.getList();
     });
@@ -117,32 +148,32 @@ export class TasksComponent implements OnInit {
 @Component({
   selector: 'app-create-task-dialog',
   templateUrl: 'dialog-create-task.html',
-  styleUrls: ['dialog-create-task.css'],
+  styleUrls: ['dialog-create-task.css']
 })
 export class CreateTaskDialogComponent implements OnInit {
   taskForm: FormGroup = new FormGroup({
     title: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required),
-    status: new FormControl(null),
+    status: new FormControl(null)
   });
 
   status = [
     {
       id: 1,
-      value: 'Not started',
+      value: 'Not started'
     },
     {
       id: 2,
-      value: 'Reviewed',
+      value: 'Reviewed'
     },
     {
       id: 3,
-      value: 'In progress',
+      value: 'In progress'
     },
     {
       id: 4,
-      value: 'Completed',
-    },
+      value: 'Completed'
+    }
   ];
   constructor(
     public dialogRef: MatDialogRef<CreateTaskDialogComponent>,
@@ -153,16 +184,16 @@ export class CreateTaskDialogComponent implements OnInit {
     this.taskForm.patchValue({
       title: this.data.title,
       description: this.data.description,
-      status: this.data.status,
+      status: this.data.status
     });
   }
 
   onYesClick(): void {
     const task = {
       _id: this.data._id,
-      tilte: this.taskForm.get('title').value,
+      title: this.taskForm.get('title').value,
       description: this.taskForm.get('description').value,
-      status: this.taskForm.get('status').value,
+      status: this.taskForm.get('status').value
     };
     this.dialogRef.close({ task, isEdit: true });
     this.taskForm.reset();
